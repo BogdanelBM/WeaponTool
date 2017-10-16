@@ -4,4 +4,4 @@ There is nothing more important than to respect and protect your country and you
 
 This unique application allows you to track the status of your weapons and your rifles. It offers you all kind of information about what ammo you should use, how othen you have to do the maitenance and the cleaning and a little description.
 
-The appliacation allows you to manage a list of weapons, by clicking on each element you can see the details of the weapons such as status, ammo that is compatible with it,  description, how often you should clean it etc. The list allows you to add, remove and upate the weapons as you wish. More functionalities  will be available soon.
+The application allows you to manage a list of weapons, by clicking on each element you can see the details of the weapons such as status, ammo that is compatible with it,  description, how often you should clean it etc. The list allows you to add, remove and upate the weapons as you wish. More functionalities  will be available soon.
