@@ -78,7 +78,7 @@ public class OnLongClickListenerWeapon implements View.OnLongClickListener {
         final EditText editTextWeaponPrice = (EditText) formElementsView.findViewById(R.id.editTextWeaponPrice);
 
         editTextWeaponDescription.setText(objectWeapon.description);
-        editTextWeaponAmmoType.setText(objectWeapon.ammoType);
+        editTextWeaponAmmoType.setText(objectWeapon.ammoType+"");
         editTextWeaponWeight.setText(objectWeapon.weight+"");
         if(Objects.equals(objectWeapon.type, "Auto")) {
             weaponTypeRadioGroup.check(R.id.autoTypeRadioButton);
@@ -86,7 +86,7 @@ public class OnLongClickListenerWeapon implements View.OnLongClickListener {
         else if(Objects.equals(objectWeapon.type, "Semiauto")){
             weaponTypeRadioGroup.check(R.id.semiAutoTypeRadioButton);
         }
-        editTextWeaponPrice.setText(objectWeapon.price);
+        editTextWeaponPrice.setText(objectWeapon.price+"");
 
         final StringBuffer weaponType = new StringBuffer();
         weaponTypeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
