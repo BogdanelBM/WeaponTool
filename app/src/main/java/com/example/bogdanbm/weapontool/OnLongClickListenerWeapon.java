@@ -3,10 +3,13 @@ package com.example.bogdanbm.weapontool;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.support.annotation.IdRes;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -18,7 +21,7 @@ import java.util.Objects;
  * Created by BogdanBM on 11/5/2017.
  */
 
-public class OnLongClickListenerWeapon implements View.OnLongClickListener {
+public class OnLongClickListenerWeapon implements View.OnLongClickListener, NumberPicker.OnValueChangeListener {
     private static MainActivity mainActivity;
     Context context;
     String id;
@@ -38,6 +41,7 @@ public class OnLongClickListenerWeapon implements View.OnLongClickListener {
         final CharSequence[] items = { "Edit", "Delete" };
         new AlertDialog.Builder(context).setTitle("My Weapon "+weaponType)
                 .setItems(items, new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     public void onClick(DialogInterface dialog, int item) {
                         if (item == 0) {
                             editWeapon(Integer.parseInt(id));
@@ -64,6 +68,7 @@ public class OnLongClickListenerWeapon implements View.OnLongClickListener {
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void editWeapon(final int weaponId) {
         final TableControllerWeapon tableControllerWeapon = new TableControllerWeapon(context);
         ObjectWeapon objectWeapon = tableControllerWeapon.readSingleRecord(weaponId);
@@ -72,13 +77,17 @@ public class OnLongClickListenerWeapon implements View.OnLongClickListener {
         final View formElementsView = inflater.inflate(R.layout.weapon_input_form, null, false);
 
         final EditText editTextWeaponDescription= (EditText) formElementsView.findViewById(R.id.editTextWeaponDescription);
-        final EditText editTextWeaponAmmoType = (EditText) formElementsView.findViewById(R.id.editTextWeaponAmmoType);
+        final NumberPicker numberPickerAmmoType = (NumberPicker) formElementsView.findViewById(R.id.numberPickerAmmoType);
+        numberPickerAmmoType.setMaxValue(10);
+        numberPickerAmmoType.setMinValue(0);
+        numberPickerAmmoType.setWrapSelectorWheel(false);
+        numberPickerAmmoType.setOnValueChangedListener(this);
         final EditText editTextWeaponWeight = (EditText) formElementsView.findViewById(R.id.editTextWeaponWeight);
         final RadioGroup weaponTypeRadioGroup = (RadioGroup) formElementsView.findViewById(R.id.weaponTypeRadioGroup);
         final EditText editTextWeaponPrice = (EditText) formElementsView.findViewById(R.id.editTextWeaponPrice);
 
         editTextWeaponDescription.setText(objectWeapon.description);
-        editTextWeaponAmmoType.setText(objectWeapon.ammoType+"");
+        numberPickerAmmoType.setValue(objectWeapon.ammoType);
         editTextWeaponWeight.setText(objectWeapon.weight+"");
         if(Objects.equals(objectWeapon.type, "Auto")) {
             weaponTypeRadioGroup.check(R.id.autoTypeRadioButton);
@@ -121,7 +130,7 @@ public class OnLongClickListenerWeapon implements View.OnLongClickListener {
                                 ObjectWeapon objectWeapon = new ObjectWeapon();
                                 objectWeapon.id = weaponId;
                                 objectWeapon.description = editTextWeaponDescription.getText().toString();
-                                objectWeapon.ammoType = Integer.parseInt(editTextWeaponAmmoType.getText().toString());
+                                objectWeapon.ammoType = numberPickerAmmoType.getValue();
                                 objectWeapon.weight = Integer.parseInt(editTextWeaponWeight.getText().toString());
                                 objectWeapon.type = weaponType.toString();
                                 objectWeapon.price = Integer.parseInt(editTextWeaponPrice.getText().toString());
@@ -141,5 +150,10 @@ public class OnLongClickListenerWeapon implements View.OnLongClickListener {
                             }
 
                         }).show();
+    }
+
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
     }
 }
