@@ -10,6 +10,7 @@ import android.support.annotation.IdRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -18,7 +19,7 @@ import android.widget.Toast;
  * Created by BogdanBM on 10/30/2017.
  */
 
-public class OnClickListenerCreateWeapon implements View.OnClickListener {
+public class OnClickListenerCreateWeapon implements View.OnClickListener, NumberPicker.OnValueChangeListener {
 
     private static MainActivity mainActivity;
     public OnClickListenerCreateWeapon(MainActivity mainActivity)
@@ -32,7 +33,11 @@ public class OnClickListenerCreateWeapon implements View.OnClickListener {
         final View formElementsView = inflater.inflate(R.layout.weapon_input_form, null, false);
         final EditText editTextWeaponDescription= (EditText) formElementsView.findViewById(R.id.editTextWeaponDescription);
         final EditText editTextWeaponWeight= (EditText) formElementsView.findViewById(R.id.editTextWeaponWeight);
-        final EditText editTextWeaponAmmoType = (EditText) formElementsView.findViewById(R.id.editTextWeaponAmmoType);
+        final NumberPicker numberPickerAmmoType = (NumberPicker) formElementsView.findViewById(R.id.numberPickerAmmoType);
+        numberPickerAmmoType.setMaxValue(10);
+        numberPickerAmmoType.setMinValue(0);
+        numberPickerAmmoType.setWrapSelectorWheel(false);
+        numberPickerAmmoType.setOnValueChangedListener(this);
         final RadioGroup weaponTypeRadioGroup = (RadioGroup) formElementsView.findViewById(R.id.weaponTypeRadioGroup);
         final EditText editTextWeaponPrice= (EditText) formElementsView.findViewById(R.id.editTextWeaponPrice);
         final StringBuffer weaponType = new StringBuffer();
@@ -67,7 +72,7 @@ public class OnClickListenerCreateWeapon implements View.OnClickListener {
 
                             public void onClick(DialogInterface dialog, int id) {
                                 String weaponDescription= editTextWeaponDescription.getText().toString();
-                                String weaponAmmoType= editTextWeaponAmmoType.getText().toString();
+                                String weaponAmmoType= numberPickerAmmoType.getValue()+"";
                                 String weaponWeight = editTextWeaponWeight.getText().toString();
                                 String weaponPrice = editTextWeaponPrice.getText().toString();
 
@@ -80,7 +85,7 @@ public class OnClickListenerCreateWeapon implements View.OnClickListener {
 
                                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                                 intent.setType("text/plain");
-                                intent.setData(Uri.parse("mailto:santejudean.bogdan96@gmail.com?cc=santejudean.bogdan96@gmail.com&subject=New Weapon Added-WEAPONTOOL&body="+
+                                intent.setData(Uri.parse("mailto:santejudean.bogdan@gmail.com?cc=santejudean.bogdan@gmail.com&subject=New Weapon Added-WEAPONTOOL&body="+
                                         newWeapon.toString() ));
                                 try {
                                     context.startActivity(intent);
@@ -103,5 +108,10 @@ public class OnClickListenerCreateWeapon implements View.OnClickListener {
                             }
 
                         }).show();
+    }
+
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
     }
 }
