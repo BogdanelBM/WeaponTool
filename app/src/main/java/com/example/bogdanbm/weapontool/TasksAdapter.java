@@ -57,7 +57,7 @@ public class TasksAdapter extends BaseAdapter implements ListAdapter {
         }
 
         TextView itemLabel = (TextView) view.findViewById(R.id.taskDescTextView);
-        itemLabel.setTag(Integer.toString(list.get(i).id) + " " + list.get(i).description);
+        itemLabel.setTag(Integer.toString(list.get(i).id);
         String text = list.get(i).description;
         itemLabel.setText(text);
 
