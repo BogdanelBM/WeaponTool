@@ -3,10 +3,13 @@ package com.example.bogdanbm.weapontool;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,13 +27,19 @@ public class TasksPerWeapon extends Activity {
         int weaponId = intent.getIntExtra("weaponId", 0);
 
         TextView weaponTypeTextView = (TextView) findViewById(R.id.textViewTasksForWeaponType);
-        weaponTypeTextView.setText(weaponType + " TO-DOs ");
+        weaponTypeTextView.setText(weaponType + ": DO NOT FORGET!");
 
         Button buttonCreateTask = (Button) findViewById(R.id.buttonCreateNewTask);
         buttonCreateTask.setOnClickListener(new OnClickListenerCreateTask(this, weaponId, weaponType));
 
         countTasks(weaponId);
-        readTasksPerWeapon(weaponId);
+        final ListView taskList = (ListView) findViewById(R.id.tasksListView);
+
+        List<ObjectTask> tasks = new TableControllerTasks(this).read(weaponId);
+        final ArrayList<ObjectTask> array = new ArrayList<>(tasks);
+
+        TasksAdapter adapter = new TasksAdapter(array, this, this);
+        taskList.setAdapter(adapter);
     }
 
     public void countTasks(int weaponId) {
@@ -42,26 +51,17 @@ public class TasksPerWeapon extends Activity {
     public void readTasksPerWeapon(int weaponId) {
 
         LinearLayout linearLayoutRecords = (LinearLayout) findViewById(R.id.linearLayoutTasks);
-        linearLayoutRecords.removeAllViews();
 
         List<ObjectTask> tasks = new TableControllerTasks(this).read(weaponId);
 
         if (tasks.size() > 0) {
 
-            for (ObjectTask obj : tasks) {
+            final ListView taskList = (ListView) findViewById(R.id.tasksListView);
 
-                int id = obj.id;
-                String description = obj.description;
+            final ArrayList<ObjectTask> array = new ArrayList<>(tasks);
 
-                String textViewContents = description;
-
-                TextView textViewWeaponItem= new TextView(this);
-                textViewWeaponItem.setPadding(0, 10, 0, 10);
-                textViewWeaponItem.setText(textViewContents);
-                textViewWeaponItem.setTag(Integer.toString(id));
-                textViewWeaponItem.setOnLongClickListener(new OnLongClickListenerTask(this, weaponId));
-                linearLayoutRecords.addView(textViewWeaponItem);
-            }
+            TasksAdapter adapter = new TasksAdapter(array, this, this);
+            taskList.setAdapter(adapter);
 
         }
 
