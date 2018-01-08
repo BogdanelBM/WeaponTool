@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "352746625021",
+    "firebase_url": "https://finalweapontool.firebaseio.com",
+    "project_id": "finalweapontool",
+    "storage_bucket": "finalweapontool.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352746625021:android:16a9c1f9a971f093",
+        "android_client_info": {
+          "package_name": "com.example.bogdanbm.finalweapontool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "352746625021-n7o4m6g7n06la16n1km5gnblkmt1joji.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVyp_O3ZT6CxsqzY1Sg51kvqv1kN4dE3w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
