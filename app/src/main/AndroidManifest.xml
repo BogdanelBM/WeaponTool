@@ -25,6 +25,9 @@
         <activity android:name=".RegisterActivity">
 
         </activity>
+        <activity android:name=".TasksPerWeapon">
+
+        </activity>
     </application>
 
 </manifest>

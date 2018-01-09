@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         email = (EditText) findViewById(R.id.emailRegisterBox);
         password = (EditText) findViewById(R.id.passRegisterBox);
         btnSignUp = (Button) findViewById(R.id.sign_up_button);

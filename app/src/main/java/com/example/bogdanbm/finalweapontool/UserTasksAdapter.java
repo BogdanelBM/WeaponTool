@@ -5,28 +5,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 /**
- * Created by BogdanBM on 1/8/2018.
+ * Created by BogdanBM on 1/9/2018.
  */
 
-public class UserWeaponsAdapter extends BaseAdapter implements ListAdapter{
-    private ArrayList<Weapon> list;
+public class UserTasksAdapter extends BaseAdapter implements ListAdapter {
+    private ArrayList<Task> list;
     private Context context;
-    private static UserActivity userActivity;
+    private static TasksPerWeapon tasksPerWeapon;
 
-    public UserWeaponsAdapter(ArrayList<Weapon> list, Context context, UserActivity userActivity) {
+    public UserTasksAdapter(ArrayList<Task> list, Context context, TasksPerWeapon tasksPerWeapon) {
         this.list = list;
         this.context = context;
-        this.userActivity = userActivity;
+        this.tasksPerWeapon = tasksPerWeapon;
     }
 
-    public void setList(ArrayList<Weapon> ll)
+    public void setList(ArrayList<Task> ll)
     {
         this.list = ll;
     }
@@ -52,17 +51,15 @@ public class UserWeaponsAdapter extends BaseAdapter implements ListAdapter{
         if(view == null)
         {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.weapon_user_rowitem, null);
+            view = inflater.inflate(R.layout.task_rowitem, null);
         }
 
-        TextView itemLabel = (TextView) view.findViewById(R.id.rowItemDescTextView);
-        itemLabel.setTag(list.get(i).id + " " + list.get(i).description);
-        String text = list.get(i).description + " ~ " + list.get(i).type;
+        TextView itemLabel = (TextView) view.findViewById(R.id.taskDescTextView);
+        itemLabel.setTag(list.get(i).id);
+        String text = list.get(i).description;
         itemLabel.setText(text);
-        itemLabel.setOnLongClickListener(new OnLongClickListenerWeaponUser(userActivity, list));
 
-        Button weaponTasks = (Button) view.findViewById(R.id.weaponTaskButton);
-        weaponTasks.setOnClickListener(new OnClickListenerTasksPerWeapon(userActivity, new TasksPerWeapon(), list.get(i)));
+        itemLabel.setOnLongClickListener(new OnLongClickListenerTask(tasksPerWeapon, list.get(i).weaponId, list));
 
         return view;
     }

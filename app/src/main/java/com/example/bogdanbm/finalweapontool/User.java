@@ -15,6 +15,11 @@ public class User {
         this.role = role;
     }
 
+    public User()
+    {
+
+    }
+
     @Override
     public String toString() {
         return "User{" +

@@ -1,7 +1,9 @@
 package com.example.bogdanbm.finalweapontool;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText email, password;
@@ -32,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         email = (EditText) findViewById(R.id.emailBox);
         password = (EditText) findViewById(R.id.passBox);
         btnLogin = (Button) findViewById(R.id.login_button);
@@ -68,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                                     DatabaseReference users = root.child("users");
 
                                     users.addValueEventListener(new ValueEventListener() {
+                                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             //refreshes list if any change; for first initialization is taking all elements even if there is no change detected
@@ -77,10 +81,10 @@ public class LoginActivity extends AppCompatActivity {
                                             while(iterator.hasNext())
                                             {
                                                 User user = iterator.next().getValue(User.class);
-                                                if(user.email == user_email)
+                                                if(Objects.equals(user.email, user_email))
                                                 {
                                                     Intent intent;
-                                                    if(user.role == "admin")
+                                                    if(Objects.equals(user.role, "admin"))
                                                     {
                                                         //trecem de la activitatea curenta la urmatoarea
                                                         intent = new Intent(LoginActivity.this, AdminActivity.class);
@@ -102,12 +106,17 @@ public class LoginActivity extends AppCompatActivity {
 
                                         }
                                     });
-                                    //Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                    //intent.putExtra("email", email.getText().toString());
-                                    //startActivity(intent);
                                 }
                             }
                         });
+            }
+        });
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
     }

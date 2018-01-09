@@ -54,31 +54,26 @@ public class OnLongClickListenerWeaponAdmin implements View.OnLongClickListener,
                 .setItems(items, new DialogInterface.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     public void onClick(DialogInterface dialog, int item) {
-                        if (item == 0) {
+                        if (item == 0) {//=Edit
                             editWeapon(id, weapons, view);
                         }
-                        else if (item == 1) {
+                        else if (item == 1) {//=Delete
 
-                            AsyncTask.execute(new Runnable() {
+                            weapons.child(id).removeValue().addOnCompleteListener(adminActivity, new OnCompleteListener<Void>() {
                                 @Override
-                                public void run() {
-
-                                    weapons.child(id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(adminActivity, "deleteWeapon:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                                            if(!task.isSuccessful())
-                                            {
-                                                Toast.makeText(context, "Unable to delete weapon record.", Toast.LENGTH_SHORT).show();
-                                            }
-                                            else
-                                            {
-                                                Toast.makeText(context, "Weapon was deleted.", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(adminActivity, "deleteWeapon:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                                    if(!task.isSuccessful())
+                                    {
+                                        Toast.makeText(context, "Unable to delete weapon record.", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(context, "Weapon was deleted.", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             });
+
 
                         }
                         dialog.dismiss();
@@ -117,6 +112,7 @@ public class OnLongClickListenerWeaponAdmin implements View.OnLongClickListener,
         editTextWeaponDescription.setText(weapon.description);
         numberPickerAmmoType.setValue(weapon.ammoType);
         editTextWeaponWeight.setText(weapon.weight+"");
+        //check radio button based on object's value
         if(Objects.equals(weapon.type, "Auto")) {
             weaponTypeRadioGroup.check(R.id.autoTypeRadioButton);
         }
