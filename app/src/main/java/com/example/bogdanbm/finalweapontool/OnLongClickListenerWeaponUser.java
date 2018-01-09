@@ -72,7 +72,7 @@ public class OnLongClickListenerWeaponUser implements View.OnLongClickListener {
         weaponAmmoType.setText(weapon.ammoType+"");
         weaponType.setText(weapon.type);
         weaponWeight.setText(weapon.weight+"");
-        weaponPrice.setText(weapon.price);
+        weaponPrice.setText(weapon.price+"");
 
         new AlertDialog.Builder(context)
                 .setView(formElementsView)
